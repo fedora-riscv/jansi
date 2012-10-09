@@ -1,15 +1,14 @@
 Name:             jansi
-Version:          1.6
-Release:          4%{?dist}
+Version:          1.9
+Release:          1%{?dist}
 Summary:          Jansi is a java library for generating and interpreting ANSI escape sequences
 Group:            Development/Libraries
 License:          ASL 2.0
 URL:              http://jansi.fusesource.org/
 
 # git clone git://github.com/fusesource/jansi.git
-# cd jansi && git archive --format=tar --prefix=jansi-1.6/ jansi-project-1.6 | xz > jansi-1.6.tar.xz
-Source0:          %{name}-%{version}.tar.xz
-Patch0:           %{name}-%{version}-pom.patch
+# cd jansi && git archive --format=tar --prefix=jansi-1.9/ jansi-project-1.9 | xz > jansi-1.9.tar.xz
+Source0:          jansi-%{version}.tar.xz
 
 BuildArch:        noarch
 
@@ -50,7 +49,15 @@ This package contains the API documentation for %{name}.
 
 %prep
 %setup -q
-%patch0 -p1
+
+%pom_disable_module jansi-website
+%pom_xpath_remove "pom:build/pom:extensions"
+
+# No org.fusesource.mvnplugins:fuse-javadoc-skin available
+%pom_remove_plugin "org.apache.maven.plugins:maven-dependency-plugin"
+
+# No maven-uberize-plugin
+%pom_xpath_remove "pom:build/pom:plugins/pom:plugin[pom:artifactId = 'maven-uberize-plugin']" jansi/pom.xml
 
 %build
 mvn-rpmbuild install javadoc:aggregate
@@ -84,6 +91,9 @@ install -pm 644 %{name}/pom.xml $RPM_BUILD_ROOT%{_mavenpomdir}/JPP-%{name}.pom
 %doc license.txt
 
 %changelog
+* Tue Oct 09 2012 Marek Goldmann <mgoldman@redhat.com> - 1.9-1
+- Upstream release 1.9, RHBZ#864490
+
 * Thu Jul 19 2012 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.6-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_18_Mass_Rebuild
 
