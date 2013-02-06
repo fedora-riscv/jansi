@@ -1,6 +1,6 @@
 Name:             jansi
 Version:          1.9
-Release:          1%{?dist}
+Release:          2%{?dist}
 Summary:          Jansi is a java library for generating and interpreting ANSI escape sequences
 Group:            Development/Libraries
 License:          ASL 2.0
@@ -14,7 +14,7 @@ BuildArch:        noarch
 
 BuildRequires:    jpackage-utils
 BuildRequires:    java-devel
-BuildRequires:    maven
+BuildRequires:    maven-local
 BuildRequires:    maven-compiler-plugin
 BuildRequires:    maven-install-plugin
 BuildRequires:    maven-jar-plugin
@@ -91,6 +91,10 @@ install -pm 644 %{name}/pom.xml $RPM_BUILD_ROOT%{_mavenpomdir}/JPP-%{name}.pom
 %doc license.txt
 
 %changelog
+* Wed Feb 06 2013 Java SIG <java-devel@lists.fedoraproject.org> - 1.9-2
+- Update for https://fedoraproject.org/wiki/Fedora_19_Maven_Rebuild
+- Replace maven BuildRequires with maven-local
+
 * Tue Oct 09 2012 Marek Goldmann <mgoldman@redhat.com> - 1.9-1
 - Upstream release 1.9, RHBZ#864490
 
