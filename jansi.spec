@@ -1,8 +1,7 @@
 Name:             jansi
 Version:          1.11
-Release:          2%{?dist}
+Release:          3%{?dist}
 Summary:          Jansi is a java library for generating and interpreting ANSI escape sequences
-Group:            Development/Libraries
 License:          ASL 2.0
 URL:              http://jansi.fusesource.org/
 
@@ -12,8 +11,6 @@ Source0:          jansi-%{version}.tar.xz
 
 BuildArch:        noarch
 
-BuildRequires:    jpackage-utils
-BuildRequires:    java-devel
 BuildRequires:    maven-local
 BuildRequires:    maven-compiler-plugin
 BuildRequires:    maven-install-plugin
@@ -28,11 +25,6 @@ BuildRequires:    junit4
 BuildRequires:    fusesource-pom
 BuildRequires:    maven-surefire-provider-junit4
 
-Requires:         java
-Requires:         jpackage-utils
-Requires:         jansi-native
-Requires:         hawtjni
-
 %description
 Jansi is a small java library that allows you to use ANSI escape sequences
 in your Java console applications. It implements ANSI support on platforms
@@ -41,8 +33,6 @@ when output is being sent to output devices which cannot support ANSI sequences.
 
 %package javadoc
 Summary:          Javadocs for %{name}
-Group:            Documentation
-Requires:         jpackage-utils
 
 %description javadoc
 This package contains the API documentation for %{name}.
@@ -59,38 +49,27 @@ This package contains the API documentation for %{name}.
 # No maven-uberize-plugin
 %pom_xpath_remove "pom:build/pom:plugins/pom:plugin[pom:artifactId = 'maven-uberize-plugin']" jansi/pom.xml
 
+# Remove unnecessary deps for jansi-native builds
+%pom_xpath_remove "pom:dependencies/pom:dependency[pom:artifactId = 'jansi-native' and pom:classifier != '']" jansi/pom.xml
+
 %build
-mvn-rpmbuild install javadoc:aggregate
+%mvn_build
 
 %install
-# JAR
-mkdir -p $RPM_BUILD_ROOT%{_javadir}
-cp -p %{name}/target/%{name}-%{version}.jar  $RPM_BUILD_ROOT%{_javadir}/%{name}.jar
+%mvn_install
 
-# JAVADOC
-mkdir -p $RPM_BUILD_ROOT%{_javadocdir}/%{name}
-cp -rp target/site/apidocs/* $RPM_BUILD_ROOT%{_javadocdir}/%{name}
-
-# POM
-install -d -m 755 $RPM_BUILD_ROOT%{_mavenpomdir}
-install -pm 644 pom.xml $RPM_BUILD_ROOT%{_mavenpomdir}/JPP-%{name}-project.pom
-install -pm 644 %{name}/pom.xml $RPM_BUILD_ROOT%{_mavenpomdir}/JPP-%{name}.pom
-
-# DEPMAP
-%add_maven_depmap JPP-%{name}-project.pom
-%add_maven_depmap JPP-%{name}.pom %{name}.jar
-
-%files
-%{_mavenpomdir}/*
-%{_mavendepmapfragdir}/*
-%{_javadir}/*
+%files -f .mfiles
+%dir %{_javadir}/%{name}
 %doc readme.md license.txt changelog.md
 
-%files javadoc
-%{_javadocdir}/%{name}
+%files javadoc -f .mfiles-javadoc
 %doc license.txt
 
 %changelog
+* Wed Sep 11 2013 Marek Goldmann <mgoldman@redhat.com> - 1.11-3
+- Using xmvn
+- Remove the jboss-native deps with classifiers
+
 * Sat Aug 03 2013 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.11-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_20_Mass_Rebuild
 
