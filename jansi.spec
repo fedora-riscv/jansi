@@ -1,6 +1,6 @@
 Name:             jansi
 Version:          1.11
-Release:          7%{?dist}
+Release:          8%{?dist}
 Summary:          Jansi is a java library for generating and interpreting ANSI escape sequences
 License:          ASL 2.0
 URL:              http://jansi.fusesource.org/
@@ -44,6 +44,10 @@ This package contains the API documentation for %{name}.
 # Remove unnecessary deps for jansi-native builds
 %pom_xpath_remove "pom:dependencies/pom:dependency[pom:artifactId = 'jansi-native' and pom:classifier != '']" jansi/pom.xml
 
+# javadoc generation fails due to strict doclint in JDK 8
+%pom_remove_plugin :maven-javadoc-plugin
+%pom_remove_plugin :maven-javadoc-plugin jansi
+
 %build
 %mvn_build
 
@@ -59,6 +63,9 @@ This package contains the API documentation for %{name}.
 %doc license.txt
 
 %changelog
+* Thu May 14 2015 Mikolaj Izdebski <mizdebsk@redhat.com> - 1.11-8
+- Remove maven-javadoc-plugin execution
+
 * Tue Jan 27 2015 Mat Booth <mat.booth@redhat.com> - 1.11-7
 - Add/remove BRs to fix FTBFS bug
 
