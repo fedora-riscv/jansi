@@ -1,6 +1,6 @@
 Name:             jansi
 Version:          1.11
-Release:          8%{?dist}
+Release:          9%{?dist}
 Summary:          Jansi is a java library for generating and interpreting ANSI escape sequences
 License:          ASL 2.0
 URL:              http://jansi.fusesource.org/
@@ -63,6 +63,9 @@ This package contains the API documentation for %{name}.
 %doc license.txt
 
 %changelog
+* Wed Jun 17 2015 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.11-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_23_Mass_Rebuild
+
 * Thu May 14 2015 Mikolaj Izdebski <mizdebsk@redhat.com> - 1.11-8
 - Remove maven-javadoc-plugin execution
 
