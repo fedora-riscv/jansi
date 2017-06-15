@@ -1,13 +1,11 @@
 Name:             jansi
-Version:          1.11
-Release:          12%{?dist}
+Version:          1.16
+Release:          1%{?dist}
 Summary:          Jansi is a java library for generating and interpreting ANSI escape sequences
 License:          ASL 2.0
 URL:              http://jansi.fusesource.org/
 
-# git clone git://github.com/fusesource/jansi.git
-# cd jansi && git archive --format=tar --prefix=jansi-1.11/ jansi-project-1.11 | xz > jansi-1.11.tar.xz
-Source0:          jansi-%{version}.tar.xz
+Source0:          https://github.com/fusesource/jansi/archive/jansi-project-%{version}.tar.gz
 
 BuildArch:        noarch
 
@@ -20,7 +18,7 @@ BuildRequires:    fusesource-pom
 Jansi is a small java library that allows you to use ANSI escape sequences
 in your Java console applications. It implements ANSI support on platforms
 which don't support it like Windows and provides graceful degradation for
-when output is being sent to output devices which cannot support ANSI sequences. 
+when output is being sent to output devices which cannot support ANSI sequences.
 
 %package javadoc
 Summary:          Javadocs for %{name}
@@ -29,25 +27,30 @@ Summary:          Javadocs for %{name}
 This package contains the API documentation for %{name}.
 
 %prep
-%setup -q
+%setup -q -n jansi-jansi-project-%{version}
 
-%pom_disable_module jansi-website
+%pom_disable_module example
 %pom_xpath_remove "pom:build/pom:extensions"
 
-%pom_remove_plugin :maven-site-plugin
-
-# No org.fusesource.mvnplugins:fuse-javadoc-skin available
-%pom_remove_plugin "org.apache.maven.plugins:maven-dependency-plugin"
+%pom_remove_plugin -r :maven-site-plugin
 
 # No maven-uberize-plugin
-%pom_xpath_remove "pom:build/pom:plugins/pom:plugin[pom:artifactId = 'maven-uberize-plugin']" jansi/pom.xml
+%pom_remove_plugin -r :maven-uberize-plugin
 
 # Remove unnecessary deps for jansi-native builds
-%pom_xpath_remove "pom:dependencies/pom:dependency[pom:artifactId = 'jansi-native' and pom:classifier != '']" jansi/pom.xml
+pushd jansi
+%pom_remove_dep :jansi-windows32
+%pom_remove_dep :jansi-windows64
+%pom_remove_dep :jansi-osx
+%pom_remove_dep :jansi-freebsd32
+%pom_remove_dep :jansi-freebsd64
+# it's there only to be bundled in uberjar and we disable uberjar generation
+%pom_remove_dep :jansi-linux32
+%pom_remove_dep :jansi-linux64
+popd
 
 # javadoc generation fails due to strict doclint in JDK 8
-%pom_remove_plugin :maven-javadoc-plugin
-%pom_remove_plugin :maven-javadoc-plugin jansi
+%pom_remove_plugin -r :maven-javadoc-plugin
 
 %build
 %mvn_build
@@ -56,14 +59,16 @@ This package contains the API documentation for %{name}.
 %mvn_install
 
 %files -f .mfiles
-%dir %{_javadir}/%{name}
-%dir %{_mavenpomdir}/%{name}
-%doc readme.md license.txt changelog.md
+%license license.txt
+%doc readme.md changelog.md
 
 %files javadoc -f .mfiles-javadoc
-%doc license.txt
+%license license.txt
 
 %changelog
+* Wed Jun 14 2017 Michael Simacek <msimacek@redhat.com> - 1.16-1
+- Update to upstream version 1.16
+
 * Fri Feb 10 2017 Fedora Release Engineering <releng@fedoraproject.org> - 1.11-12
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_26_Mass_Rebuild
 

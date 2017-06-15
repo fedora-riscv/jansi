@@ -4,3 +4,4 @@
 /noarch
 /.build-*.log
 /*.src.rpm
+/jansi-project-1.16.tar.gz
