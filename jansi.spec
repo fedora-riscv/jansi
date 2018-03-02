@@ -1,18 +1,20 @@
 Name:             jansi
-Version:          1.16
-Release:          3%{?dist}
+Version:          1.17
+Release:          1%{?dist}
 Summary:          Jansi is a java library for generating and interpreting ANSI escape sequences
 License:          ASL 2.0
-URL:              http://jansi.fusesource.org/
+URL:              http://fusesource.github.io/jansi/
 
 Source0:          https://github.com/fusesource/jansi/archive/jansi-project-%{version}.tar.gz
 
 BuildArch:        noarch
 
 BuildRequires:    maven-local
-BuildRequires:    jansi-native
-BuildRequires:    maven-plugin-bundle
-BuildRequires:    fusesource-pom
+BuildRequires:    mvn(junit:junit)
+BuildRequires:    mvn(org.apache.felix:maven-bundle-plugin)
+BuildRequires:    mvn(org.fusesource:fusesource-pom:pom:)
+BuildRequires:    mvn(org.fusesource.hawtjni:hawtjni-runtime)
+BuildRequires:    mvn(org.fusesource.jansi:jansi-native)
 
 %description
 Jansi is a small java library that allows you to use ANSI escape sequences
@@ -66,6 +68,9 @@ popd
 %license license.txt
 
 %changelog
+* Mon Feb 26 2018 Michael Simacek <msimacek@redhat.com> - 1.17-1
+- Update to upstream version 1.17
+
 * Wed Feb 07 2018 Fedora Release Engineering <releng@fedoraproject.org> - 1.16-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_28_Mass_Rebuild
 
