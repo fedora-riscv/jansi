@@ -1,5 +1,5 @@
 Name:             jansi
-Version:          1.17
+Version:          1.17.1
 Release:          1%{?dist}
 Summary:          Jansi is a java library for generating and interpreting ANSI escape sequences
 License:          ASL 2.0
@@ -68,6 +68,9 @@ popd
 %license license.txt
 
 %changelog
+* Tue Jun 05 2018 Michael Simacek <msimacek@redhat.com> - 1.17.1-1
+- Update to upstream version 1.17.1
+
 * Mon Feb 26 2018 Michael Simacek <msimacek@redhat.com> - 1.17-1
 - Update to upstream version 1.17
 
