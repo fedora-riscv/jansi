@@ -1,9 +1,10 @@
+/results_*
+/*.src.rpm
+
 /jansi-1.6.tar.xz
 /jansi-1.9.tar.xz
 /jansi-1.11.tar.xz
-/noarch
-/.build-*.log
-/*.src.rpm
 /jansi-project-1.16.tar.gz
 /jansi-project-1.17.tar.gz
 /jansi-project-1.17.1.tar.gz
+/jansi-project-1.18.tar.gz
