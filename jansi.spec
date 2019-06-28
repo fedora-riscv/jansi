@@ -1,19 +1,19 @@
-Name:             jansi
-Version:          1.17.1
-Release:          2%{?dist}
-Summary:          Jansi is a java library for generating and interpreting ANSI escape sequences
-License:          ASL 2.0
-URL:              http://fusesource.github.io/jansi/
-BuildArch:        noarch
+Name:           jansi
+Version:        1.17.1
+Release:        2%{?dist}
+Summary:        Jansi is a java library for generating and interpreting ANSI escape sequences
+License:        ASL 2.0
+URL:            http://fusesource.github.io/jansi/
+BuildArch:      noarch
 
-Source0:          https://github.com/fusesource/jansi/archive/jansi-project-%{version}.tar.gz
+Source0:        https://github.com/fusesource/jansi/archive/jansi-project-%{version}.tar.gz
 
-BuildRequires:    maven-local
-BuildRequires:    mvn(junit:junit)
-BuildRequires:    mvn(org.apache.felix:maven-bundle-plugin)
-BuildRequires:    mvn(org.fusesource:fusesource-pom:pom:)
-BuildRequires:    mvn(org.fusesource.hawtjni:hawtjni-runtime)
-BuildRequires:    mvn(org.fusesource.jansi:jansi-native)
+BuildRequires:  maven-local
+BuildRequires:  mvn(junit:junit)
+BuildRequires:  mvn(org.apache.felix:maven-bundle-plugin)
+BuildRequires:  mvn(org.fusesource:fusesource-pom:pom:)
+BuildRequires:  mvn(org.fusesource.hawtjni:hawtjni-runtime)
+BuildRequires:  mvn(org.fusesource.jansi:jansi-native)
 
 %description
 Jansi is a small java library that allows you to use ANSI escape sequences
