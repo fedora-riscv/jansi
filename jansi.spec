@@ -12,8 +12,8 @@ BuildRequires:  maven-local
 BuildRequires:  mvn(junit:junit)
 BuildRequires:  mvn(org.apache.felix:maven-bundle-plugin)
 BuildRequires:  mvn(org.fusesource:fusesource-pom:pom:)
-BuildRequires:  mvn(org.fusesource.hawtjni:hawtjni-runtime)
-BuildRequires:  mvn(org.fusesource.jansi:jansi-native)
+BuildRequires:  %{?module_prefix}mvn(org.fusesource.hawtjni:hawtjni-runtime)
+BuildRequires:  %{?module_prefix}mvn(org.fusesource.jansi:jansi-native)
 
 %description
 Jansi is a small java library that allows you to use ANSI escape sequences
