@@ -21,6 +21,7 @@ in your Java console applications. It implements ANSI support on platforms
 which don't support it like Windows and provides graceful degradation for
 when output is being sent to output devices which cannot support ANSI sequences.
 
+%{?module_package}
 %{?javadoc_package}
 
 %prep
@@ -55,7 +56,7 @@ popd
 %install
 %mvn_install
 
-%files -f .mfiles
+%files -n %{?module_prefix}%{name} -f .mfiles
 %license license.txt
 %doc readme.md changelog.md
 
