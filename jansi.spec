@@ -4,10 +4,9 @@ Release:          2%{?dist}
 Summary:          Jansi is a java library for generating and interpreting ANSI escape sequences
 License:          ASL 2.0
 URL:              http://fusesource.github.io/jansi/
+BuildArch:        noarch
 
 Source0:          https://github.com/fusesource/jansi/archive/jansi-project-%{version}.tar.gz
-
-BuildArch:        noarch
 
 BuildRequires:    maven-local
 BuildRequires:    mvn(junit:junit)
@@ -22,11 +21,7 @@ in your Java console applications. It implements ANSI support on platforms
 which don't support it like Windows and provides graceful degradation for
 when output is being sent to output devices which cannot support ANSI sequences.
 
-%package javadoc
-Summary:          Javadocs for %{name}
-
-%description javadoc
-This package contains the API documentation for %{name}.
+%{?javadoc_package}
 
 %prep
 %setup -q -n jansi-jansi-project-%{version}
@@ -63,9 +58,6 @@ popd
 %files -f .mfiles
 %license license.txt
 %doc readme.md changelog.md
-
-%files javadoc -f .mfiles-javadoc
-%license license.txt
 
 %changelog
 * Fri May 24 2019 Mikolaj Izdebski <mizdebsk@redhat.com> - 1.17.1-2
