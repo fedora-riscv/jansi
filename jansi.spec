@@ -1,6 +1,6 @@
 Name:           jansi
 Version:        1.18
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Jansi is a java library for generating and interpreting ANSI escape sequences
 License:        ASL 2.0
 URL:            http://fusesource.github.io/jansi/
@@ -8,12 +8,12 @@ BuildArch:      noarch
 
 Source0:        https://github.com/fusesource/jansi/archive/jansi-project-%{version}.tar.gz
 
+Patch0:         0001-Drop-dependency-on-native-library.patch
+
 BuildRequires:  maven-local
 BuildRequires:  mvn(junit:junit)
 BuildRequires:  mvn(org.apache.felix:maven-bundle-plugin)
 BuildRequires:  mvn(org.fusesource:fusesource-pom:pom:)
-BuildRequires:  %{?module_prefix}mvn(org.fusesource.hawtjni:hawtjni-runtime)
-BuildRequires:  %{?module_prefix}mvn(org.fusesource.jansi:jansi-native)
 
 %description
 Jansi is a small java library that allows you to use ANSI escape sequences
@@ -26,6 +26,7 @@ when output is being sent to output devices which cannot support ANSI sequences.
 
 %prep
 %setup -q -n jansi-jansi-project-%{version}
+%patch0 -p1
 
 %pom_disable_module example
 %pom_xpath_remove "pom:build/pom:extensions"
@@ -45,10 +46,16 @@ pushd jansi
 # it's there only to be bundled in uberjar and we disable uberjar generation
 %pom_remove_dep :jansi-linux32
 %pom_remove_dep :jansi-linux64
+#
+%pom_remove_dep :jansi-native
+%pom_remove_dep :hawtjni-runtime
 popd
 
 # javadoc generation fails due to strict doclint in JDK 8
 %pom_remove_plugin -r :maven-javadoc-plugin
+
+rm -f jansi/src/{main,test}/java/org/fusesource/jansi/{WindowsSupport,WindowsAnsiOutputStream,WindowsAnsiPrintStream,WindowsSupportTest,AnsiMain}.java
+
 
 %build
 %mvn_build
@@ -61,6 +68,9 @@ popd
 %doc readme.md changelog.md
 
 %changelog
+* Tue Nov 05 2019 Mikolaj Izdebski <mizdebsk@redhat.com> - 1.18-2
+- Remove dependency on jansi-native and hawtjni
+
 * Mon Jul 22 2019 Marian Koncek <mkoncek@redhat.com> - 1.18-1
 - Update to upstream version 1.18
 

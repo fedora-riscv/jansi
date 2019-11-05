@@ -1,0 +1,132 @@
+From 9267e184753020dbe436868ac4c6377f58e4500f Mon Sep 17 00:00:00 2001
+From: Mikolaj Izdebski <mizdebsk@redhat.com>
+Date: Tue, 5 Nov 2019 15:41:45 +0100
+Subject: [PATCH] Drop dependency on native library
+
+---
+ .../org/fusesource/jansi/AnsiConsole.java     | 64 ++-----------------
+ 1 file changed, 6 insertions(+), 58 deletions(-)
+
+diff --git a/jansi/src/main/java/org/fusesource/jansi/AnsiConsole.java b/jansi/src/main/java/org/fusesource/jansi/AnsiConsole.java
+index d7a37b0..6e0d316 100644
+--- a/jansi/src/main/java/org/fusesource/jansi/AnsiConsole.java
++++ b/jansi/src/main/java/org/fusesource/jansi/AnsiConsole.java
+@@ -15,10 +15,6 @@
+  */
+ package org.fusesource.jansi;
+ 
+-import static org.fusesource.jansi.internal.CLibrary.STDERR_FILENO;
+-import static org.fusesource.jansi.internal.CLibrary.STDOUT_FILENO;
+-import static org.fusesource.jansi.internal.CLibrary.isatty;
+-
+ import java.io.FilterOutputStream;
+ import java.io.IOException;
+ import java.io.OutputStream;
+@@ -75,36 +71,20 @@ public class AnsiConsole {
+ 
+     @Deprecated
+     public static OutputStream wrapOutputStream(final OutputStream stream) {
+-        try {
+-            return wrapOutputStream(stream, STDOUT_FILENO);
+-        } catch (Throwable ignore) {
+-            return wrapOutputStream(stream, 1);
+-        }
++        return wrapOutputStream(stream, 1);
+     }
+ 
+     public static PrintStream wrapSystemOut(final PrintStream ps) {
+-        try {
+-            return wrapPrintStream(ps, STDOUT_FILENO);
+-        } catch (Throwable ignore) {
+-            return wrapPrintStream(ps, 1);
+-        }
++        return wrapPrintStream(ps, 1);
+     }
+ 
+     @Deprecated
+     public static OutputStream wrapErrorOutputStream(final OutputStream stream) {
+-        try {
+-            return wrapOutputStream(stream, STDERR_FILENO);
+-        } catch (Throwable ignore) {
+-            return wrapOutputStream(stream, 2);
+-        }
++        return wrapOutputStream(stream, 2);
+     }
+ 
+     public static PrintStream wrapSystemErr(final PrintStream ps) {
+-        try {
+-            return wrapPrintStream(ps, STDERR_FILENO);
+-        } catch (Throwable ignore) {
+-            return wrapPrintStream(ps, 2);
+-        }
++        return wrapPrintStream(ps, 2);
+     }
+ 
+     @Deprecated
+@@ -124,22 +104,6 @@ public class AnsiConsole {
+             return new AnsiOutputStream(stream);
+         }
+ 
+-        if (IS_WINDOWS && !IS_CYGWIN && !IS_MINGW_XTERM) {
+-
+-            // On windows we know the console does not interpret ANSI codes..
+-            try {
+-                jansiOutputType = JansiOutputType.WINDOWS;
+-                return new WindowsAnsiOutputStream(stream, fileno == STDOUT_FILENO);
+-            } catch (Throwable ignore) {
+-                // this happens when JNA is not in the path.. or
+-                // this happens when the stdout is being redirected to a file.
+-            }
+-
+-            // Use the ANSIOutputStream to strip out the ANSI escape sequences.
+-            jansiOutputType = JansiOutputType.STRIP_ANSI;
+-            return new AnsiOutputStream(stream);
+-        }
+-
+         // We must be on some Unix variant, including Cygwin or MSYS(2) on Windows...
+         try {
+             // If the jansi.force property is set, then we force to output
+@@ -147,7 +111,7 @@ public class AnsiConsole {
+             boolean forceColored = Boolean.getBoolean("jansi.force");
+             // If we can detect that stdout is not a tty.. then setup
+             // to strip the ANSI sequences..
+-            if (!forceColored && isatty(fileno) == 0) {
++            if (!forceColored && System.console() == null) {
+                 jansiOutputType = JansiOutputType.STRIP_ANSI;
+                 return new AnsiOutputStream(stream);
+             }
+@@ -202,22 +166,6 @@ public class AnsiConsole {
+             return new AnsiPrintStream(ps);
+         }
+ 
+-        if (IS_WINDOWS && !IS_CYGWIN && !IS_MINGW_XTERM) {
+-
+-            // On windows we know the console does not interpret ANSI codes..
+-            try {
+-                jansiOutputType = JansiOutputType.WINDOWS;
+-                return new WindowsAnsiPrintStream(ps, fileno == STDOUT_FILENO);
+-            } catch (Throwable ignore) {
+-                // this happens when JNA is not in the path.. or
+-                // this happens when the stdout is being redirected to a file.
+-            }
+-
+-            // Use the AnsiPrintStream to strip out the ANSI escape sequences.
+-            jansiOutputType = JansiOutputType.STRIP_ANSI;
+-            return new AnsiPrintStream(ps);
+-        }
+-
+         // We must be on some Unix variant, including Cygwin or MSYS(2) on Windows...
+         try {
+             // If the jansi.force property is set, then we force to output
+@@ -225,7 +173,7 @@ public class AnsiConsole {
+             boolean forceColored = Boolean.getBoolean("jansi.force");
+             // If we can detect that stdout is not a tty.. then setup
+             // to strip the ANSI sequences..
+-            if (!forceColored && isatty(fileno) == 0) {
++            if (!forceColored && System.console() == null) {
+                 jansiOutputType = JansiOutputType.STRIP_ANSI;
+                 return new AnsiPrintStream(ps);
+             }
+-- 
+2.21.0
+
