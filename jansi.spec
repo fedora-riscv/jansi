@@ -1,6 +1,6 @@
 Name:           jansi
 Version:        1.18
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Jansi is a java library for generating and interpreting ANSI escape sequences
 License:        ASL 2.0
 URL:            http://fusesource.github.io/jansi/
@@ -10,7 +10,7 @@ Source0:        https://github.com/fusesource/jansi/archive/jansi-project-%{vers
 
 Patch0:         0001-Drop-dependency-on-native-library.patch
 
-BuildRequires:  maven-local
+BuildRequires:  maven-local-openjdk8
 BuildRequires:  mvn(junit:junit)
 BuildRequires:  mvn(org.apache.felix:maven-bundle-plugin)
 BuildRequires:  mvn(org.fusesource:fusesource-pom:pom:)
@@ -68,6 +68,9 @@ rm -f jansi/src/{main,test}/java/org/fusesource/jansi/{WindowsSupport,WindowsAns
 %doc readme.md changelog.md
 
 %changelog
+* Sat Jan 25 2020 Mikolaj Izdebski <mizdebsk@redhat.com> - 1.18-4
+- Build with OpenJDK 8
+
 * Tue Nov 05 2019 Mikolaj Izdebski <mizdebsk@redhat.com> - 1.18-3
 - Mass rebuild for javapackages-tools 201902
 
