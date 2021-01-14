@@ -1,6 +1,6 @@
 Name:             jansi
 Version:          2.1.1
-Release:          1%{?dist}
+Release:          2%{?dist}
 Summary:          Generate and interpret ANSI escape sequences in Java
 
 License:          ASL 2.0
@@ -61,14 +61,15 @@ sed -i 's,@LIBDIR@,%{libdir},' \
     src/main/java/org/fusesource/jansi/internal/JansiLoader.java
 
 %build
+%set_build_flags
 # Build the native artifact
-CFLAGS="%{build_cflags} -I. -I%{java_home}/include -I%{java_home}/include/linux -fPIC -fvisibility=hidden"
+CFLAGS="$CFLAGS -I. -I%{java_home}/include -I%{java_home}/include/linux -fPIC -fvisibility=hidden"
 cd src/main/native
-gcc $CFLAGS -c jansi.c
-gcc $CFLAGS -c jansi_isatty.c
-gcc $CFLAGS -c jansi_structs.c
-gcc $CFLAGS -c jansi_ttyname.c
-gcc $CFLAGS %{build_ldflags} -shared -o libjansi.so *.o -lutil
+$CC $CFLAGS -c jansi.c
+$CC $CFLAGS -c jansi_isatty.c
+$CC $CFLAGS -c jansi_structs.c
+$CC $CFLAGS -c jansi_ttyname.c
+$CC $CFLAGS $LDFLAGS -shared -o libjansi.so *.o -lutil
 cd -
 
 # Build the Java artifacts
@@ -91,6 +92,9 @@ cp -p src/main/native/libjansi.so %{buildroot}%{_libdir}/%{name}
 %license license.txt
 
 %changelog
+* Thu Jan 14 2021 Timm Bäder <tbaeder@redhat.com> - 2.1.1-2
+- Use standard variables when compiling native artifact
+
 * Tue Dec 15 2020 Jerry James <loganjerry@gmail.com> - 2.1.1-1
 - Version 2.1.1
 - Remove package name from Summary
