@@ -1,6 +1,6 @@
 Name:             jansi
 Version:          2.1.1
-Release:          2%{?dist}
+Release:          3%{?dist}
 Summary:          Generate and interpret ANSI escape sequences in Java
 
 License:          ASL 2.0
@@ -92,6 +92,9 @@ cp -p src/main/native/libjansi.so %{buildroot}%{_libdir}/%{name}
 %license license.txt
 
 %changelog
+* Tue Jan 26 2021 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.1-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_34_Mass_Rebuild
+
 * Thu Jan 14 2021 Timm Bäder <tbaeder@redhat.com> - 2.1.1-2
 - Use standard variables when compiling native artifact
 
