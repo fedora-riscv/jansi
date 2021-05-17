@@ -1,8 +1,8 @@
-%bcond_with bootstrap
+%bcond_without bootstrap
 
 Name:             jansi
 Version:          2.1.1
-Release:          3%{?dist}
+Release:          4%{?dist}
 Summary:          Generate and interpret ANSI escape sequences in Java
 
 License:          ASL 2.0
@@ -98,6 +98,9 @@ cp -p src/main/native/libjansi.so %{buildroot}%{_libdir}/%{name}
 %license license.txt
 
 %changelog
+* Mon May 17 2021 Mikolaj Izdebski <mizdebsk@redhat.com> - 2.1.1-4
+- Bootstrap build
+
 * Tue Jan 26 2021 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.1-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_34_Mass_Rebuild
 
