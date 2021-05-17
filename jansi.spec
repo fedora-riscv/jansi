@@ -1,4 +1,4 @@
-%bcond_without bootstrap
+%bcond_with bootstrap
 
 Name:             jansi
 Version:          2.1.1
@@ -100,6 +100,7 @@ cp -p src/main/native/libjansi.so %{buildroot}%{_libdir}/%{name}
 %changelog
 * Mon May 17 2021 Mikolaj Izdebski <mizdebsk@redhat.com> - 2.1.1-4
 - Bootstrap build
+- Non-bootstrap build
 
 * Tue Jan 26 2021 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.1-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_34_Mass_Rebuild
