@@ -1,3 +1,5 @@
+%bcond_with bootstrap
+
 Name:             jansi
 Version:          2.1.1
 Release:          3%{?dist}
@@ -11,11 +13,15 @@ Patch0:           %{name}-jni.patch
 
 BuildRequires:    gcc
 BuildRequires:    maven-local
+%if %{with bootstrap}
+BuildRequires:    javapackages-bootstrap
+%else
 BuildRequires:    mvn(org.apache.felix:maven-bundle-plugin)
 BuildRequires:    mvn(org.apache.maven.plugins:maven-source-plugin)
 BuildRequires:    mvn(org.apache.maven.surefire:surefire-junit-platform)
 BuildRequires:    mvn(org.fusesource:fusesource-pom:pom:)
 BuildRequires:    mvn(org.junit.jupiter:junit-jupiter-engine)
+%endif
 
 %description
 Jansi is a small java library that allows you to use ANSI escape sequences
