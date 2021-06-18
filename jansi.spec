@@ -2,12 +2,16 @@
 
 Name:             jansi
 Version:          2.1.1
-Release:          4%{?dist}
+Release:          5%{?dist}
 Summary:          Generate and interpret ANSI escape sequences in Java
-
 License:          ASL 2.0
 URL:              http://fusesource.github.io/jansi/
-Source0:          https://github.com/fusesource/jansi/archive/jansi-%{version}.tar.gz
+
+# ./generate-tarball.sh
+Source0:          %{name}-%{version}.tar.gz
+# Remove bundled binaries which cannot be easily verified for licensing
+Source1:          generate-tarball.sh
+
 # Change the location of the native artifact to where Fedora wants it
 Patch0:           %{name}-jni.patch
 
@@ -98,6 +102,10 @@ cp -p src/main/native/libjansi.so %{buildroot}%{_libdir}/%{name}
 %license license.txt
 
 %changelog
+* Fri Jun 18 2021 Mikolaj Izdebski <mizdebsk@redhat.com> - 2.1.1-5
+- Clean tarball from content with questionable licensing
+- Resolves: rhbz#1973738
+
 * Mon May 17 2021 Mikolaj Izdebski <mizdebsk@redhat.com> - 2.1.1-4
 - Bootstrap build
 - Non-bootstrap build
