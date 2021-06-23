@@ -1,8 +1,8 @@
 %bcond_with bootstrap
 
 Name:             jansi
-Version:          2.1.1
-Release:          5%{?dist}
+Version:          2.3.3
+Release:          1%{?dist}
 Summary:          Generate and interpret ANSI escape sequences in Java
 License:          ASL 2.0
 URL:              http://fusesource.github.io/jansi/
@@ -55,8 +55,7 @@ This package contains the API documentation for %{name}.
 %pom_remove_dep :picocli-codegen
 
 # Build for JDK 1.8 at a minimum
-%pom_xpath_set "//pom:plugin[pom:artifactId='maven-compiler-plugin']//pom:source" 1.8
-%pom_xpath_set "//pom:plugin[pom:artifactId='maven-compiler-plugin']//pom:target" 1.8
+%pom_xpath_set "//pom:properties/pom:jdkTarget" 1.8
 
 # Remove prebuilt shared objects
 rm -fr src/main/resources/org/fusesource/jansi/internal
@@ -102,6 +101,9 @@ cp -p src/main/native/libjansi.so %{buildroot}%{_libdir}/%{name}
 %license license.txt
 
 %changelog
+* Wed Jun 23 2021 Jerry James <loganjerry@gmail.com> - 2.3.3-1
+- Version 2.3.3
+
 * Fri Jun 18 2021 Mikolaj Izdebski <mizdebsk@redhat.com> - 2.1.1-5
 - Clean tarball from content with questionable licensing
 - Resolves: rhbz#1973738
