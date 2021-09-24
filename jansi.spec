@@ -2,7 +2,7 @@
 
 Name:             jansi
 Version:          2.3.3
-Release:          2%{?dist}
+Release:          3%{?dist}
 Summary:          Generate and interpret ANSI escape sequences in Java
 License:          ASL 2.0
 URL:              http://fusesource.github.io/jansi/
@@ -66,7 +66,7 @@ ln -s %{java_home}/include/jni.h src/main/native/inc_linux
 ln -s %{java_home}/include/linux/jni_md.h src/main/native/inc_linux
 
 # Set the JNI path
-sed -i 's,@LIBDIR@,%{libdir},' \
+sed -i 's,@LIBDIR@,%{_prefix}/lib,' \
     src/main/java/org/fusesource/jansi/internal/JansiLoader.java
 
 %build
@@ -86,8 +86,8 @@ cd -
 
 %install
 # Install the native artifact
-mkdir -p %{buildroot}%{_libdir}/%{name}
-cp -p src/main/native/libjansi.so %{buildroot}%{_libdir}/%{name}
+mkdir -p %{buildroot}%{_prefix}/lib/%{name}
+cp -p src/main/native/libjansi.so %{buildroot}%{_prefix}/lib/%{name}
 
 # Install the Java artifacts
 %mvn_install
@@ -95,12 +95,16 @@ cp -p src/main/native/libjansi.so %{buildroot}%{_libdir}/%{name}
 %files -f .mfiles
 %license license.txt
 %doc readme.md changelog.md
-%{_libdir}/%{name}/
+%{_prefix}/lib/%{name}/
 
 %files javadoc -f .mfiles-javadoc
 %license license.txt
 
 %changelog
+* Fri Sep 24 2021 Marian Koncek <mkoncek@redhat.com> - 2.3.3-3
+- Install native artifact into a fixed location
+- Related: rhbz#1994935
+
 * Thu Jul 22 2021 Fedora Release Engineering <releng@fedoraproject.org> - 2.3.3-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_35_Mass_Rebuild
 
