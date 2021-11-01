@@ -1,8 +1,8 @@
 %bcond_with bootstrap
 
 Name:             jansi
-Version:          2.3.3
-Release:          3%{?dist}
+Version:          2.4.0
+Release:          1%{?dist}
 Summary:          Generate and interpret ANSI escape sequences in Java
 License:          ASL 2.0
 URL:              http://fusesource.github.io/jansi/
@@ -101,6 +101,9 @@ cp -p src/main/native/libjansi.so %{buildroot}%{_prefix}/lib/%{name}
 %license license.txt
 
 %changelog
+* Mon Nov 01 2021 Marian Koncek <mkoncek@redhat.com> - 2.4.0-1
+- Update to upstream version 2.4.0
+
 * Fri Sep 24 2021 Marian Koncek <mkoncek@redhat.com> - 2.3.3-3
 - Install native artifact into a fixed location
 - Related: rhbz#1994935

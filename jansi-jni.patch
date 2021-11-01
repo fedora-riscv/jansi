@@ -6,7 +6,7 @@
              }
 +        } else {
 +            if (loadNativeLibrary(new File("@LIBDIR@/jansi", jansiNativeLibraryName))) {
-+                extracted = true;
++                loaded = true;
 +                return;
 +            }
          }
