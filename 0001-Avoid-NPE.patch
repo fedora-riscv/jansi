@@ -1,0 +1,26 @@
+From d94c5832e14504d44abeba47866dfa7dac5992b5 Mon Sep 17 00:00:00 2001
+From: Guillaume Nodet <gnodet@gmail.com>
+Date: Fri, 23 Jul 2021 09:22:19 +0200
+Subject: [PATCH] Avoid possible NPE, fixes #214
+
+---
+ src/main/java/org/fusesource/jansi/AnsiPrintStream.java | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
+
+diff --git a/src/main/java/org/fusesource/jansi/AnsiPrintStream.java b/src/main/java/org/fusesource/jansi/AnsiPrintStream.java
+index e153c43..df6e5a6 100644
+--- a/src/main/java/org/fusesource/jansi/AnsiPrintStream.java
++++ b/src/main/java/org/fusesource/jansi/AnsiPrintStream.java
+@@ -76,7 +76,11 @@ public void install() throws IOException {
+     }
+ 
+     public void uninstall() throws IOException {
+-        getOut().uninstall();
++        // If the system output stream has been closed, out should be null, so avoid a NPE
++        AnsiOutputStream out = getOut();
++        if (out != null) {
++            out.uninstall();
++        }
+     }
+ 
+     @Override

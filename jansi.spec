@@ -2,7 +2,7 @@
 
 Name:             jansi
 Version:          2.3.3
-Release:          3%{?dist}
+Release:          4%{?dist}
 Summary:          Generate and interpret ANSI escape sequences in Java
 License:          ASL 2.0
 URL:              http://fusesource.github.io/jansi/
@@ -14,6 +14,7 @@ Source1:          generate-tarball.sh
 
 # Change the location of the native artifact to where Fedora wants it
 Patch0:           %{name}-jni.patch
+Patch1:           0001-Avoid-NPE.patch
 
 BuildRequires:    gcc
 BuildRequires:    maven-local
@@ -101,6 +102,10 @@ cp -p src/main/native/libjansi.so %{buildroot}%{_prefix}/lib/%{name}
 %license license.txt
 
 %changelog
+* Mon Nov 08 2021 Marian Koncek <mkoncek@redhat.com> - 2.3.3-4
+- Avoid possible NullPointerException
+- Resolves: rhbz#1995022
+
 * Fri Sep 24 2021 Marian Koncek <mkoncek@redhat.com> - 2.3.3-3
 - Install native artifact into a fixed location
 - Related: rhbz#1994935
