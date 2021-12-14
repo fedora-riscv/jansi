@@ -1,6 +1,6 @@
 Name:             jansi
 Version:          2.1.1
-Release:          3%{?dist}
+Release:          4%{?dist}
 Summary:          Generate and interpret ANSI escape sequences in Java
 
 License:          ASL 2.0
@@ -8,6 +8,10 @@ URL:              http://fusesource.github.io/jansi/
 Source0:          https://github.com/fusesource/jansi/archive/jansi-%{version}.tar.gz
 # Change the location of the native artifact to where Fedora wants it
 Patch0:           %{name}-jni.patch
+# Bring back AnsiRenderer
+# https://github.com/fusesource/jansi/commit/faf9331
+# Needed to build newer log4j
+Patch1:           0001-Bring-back-the-AnsiRenderer-fixes-184.patch
 
 BuildRequires:    gcc
 BuildRequires:    maven-local
@@ -92,6 +96,9 @@ cp -p src/main/native/libjansi.so %{buildroot}%{_libdir}/%{name}
 %license license.txt
 
 %changelog
+* Mon Dec 13 2021 Adam Williamson <awilliam@redhat.com> - 2.1.1-4
+- Backport patch to bring back AnsiRenderer
+
 * Tue Jan 26 2021 Fedora Release Engineering <releng@fedoraproject.org> - 2.1.1-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_34_Mass_Rebuild
 
