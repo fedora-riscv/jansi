@@ -2,7 +2,7 @@
 
 Name:             jansi
 Version:          2.4.0
-Release:          1%{?dist}
+Release:          2%{?dist}
 Summary:          Generate and interpret ANSI escape sequences in Java
 License:          ASL 2.0
 URL:              http://fusesource.github.io/jansi/
@@ -101,6 +101,9 @@ cp -p src/main/native/libjansi.so %{buildroot}%{_prefix}/lib/%{name}
 %license license.txt
 
 %changelog
+* Thu Jan 20 2022 Fedora Release Engineering <releng@fedoraproject.org> - 2.4.0-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_36_Mass_Rebuild
+
 * Mon Nov 01 2021 Marian Koncek <mkoncek@redhat.com> - 2.4.0-1
 - Update to upstream version 2.4.0
 
