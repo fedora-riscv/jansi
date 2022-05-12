@@ -6,6 +6,7 @@ Release:          3%{?dist}
 Summary:          Generate and interpret ANSI escape sequences in Java
 License:          ASL 2.0
 URL:              http://fusesource.github.io/jansi/
+ExclusiveArch:    %{java_arches}
 
 # ./generate-tarball.sh
 Source0:          %{name}-%{version}.tar.gz
