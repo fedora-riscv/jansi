@@ -17,10 +17,10 @@ Source1:          generate-tarball.sh
 Patch0:           %{name}-jni.patch
 
 BuildRequires:    gcc
-BuildRequires:    maven-local
 %if %{with bootstrap}
 BuildRequires:    javapackages-bootstrap
 %else
+BuildRequires:    maven-local
 BuildRequires:    mvn(org.apache.felix:maven-bundle-plugin)
 BuildRequires:    mvn(org.apache.maven.plugins:maven-source-plugin)
 BuildRequires:    mvn(org.apache.maven.surefire:surefire-junit-platform)
