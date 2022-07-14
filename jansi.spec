@@ -2,7 +2,7 @@
 
 Name:             jansi
 Version:          2.4.0
-Release:          3%{?dist}
+Release:          4%{?dist}
 Summary:          Generate and interpret ANSI escape sequences in Java
 License:          ASL 2.0
 URL:              http://fusesource.github.io/jansi/
@@ -35,6 +35,7 @@ which don't support it like Windows and provides graceful degradation for
 when output is being sent to output devices which cannot support ANSI sequences.
 
 %package javadoc
+BuildArch:        noarch
 Summary:          Javadocs for %{name}
 
 %description javadoc
@@ -102,6 +103,9 @@ cp -p src/main/native/libjansi.so %{buildroot}%{_prefix}/lib/%{name}
 %license license.txt
 
 %changelog
+* Thu Jul 14 2022 Marian Koncek <mkoncek@redhat.com> - 2.4.0-4
+- Make javadoc subpackage noarch
+
 * Sat Feb 05 2022 Jiri Vanek <jvanek@redhat.com> - 2.4.0-3
 - Rebuilt for java-17-openjdk as system jdk
 
