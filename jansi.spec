@@ -2,7 +2,7 @@
 
 Name:             jansi
 Version:          2.4.0
-Release:          4%{?dist}
+Release:          5%{?dist}
 Summary:          Generate and interpret ANSI escape sequences in Java
 License:          ASL 2.0
 URL:              http://fusesource.github.io/jansi/
@@ -73,6 +73,7 @@ sed -i 's,@LIBDIR@,%{_prefix}/lib,' \
 
 %build
 %set_build_flags
+CC="${CC:-gcc}"
 # Build the native artifact
 CFLAGS="$CFLAGS -I. -I%{java_home}/include -I%{java_home}/include/linux -fPIC -fvisibility=hidden"
 cd src/main/native
@@ -103,6 +104,9 @@ cp -p src/main/native/libjansi.so %{buildroot}%{_prefix}/lib/%{name}
 %license license.txt
 
 %changelog
+* Mon Jul 18 2022 Mikolaj Izdebski <mizdebsk@redhat.com> - 2.4.0-5
+- Ensure CC env variable is set during build
+
 * Thu Jul 14 2022 Marian Koncek <mkoncek@redhat.com> - 2.4.0-4
 - Make javadoc subpackage noarch
 
