@@ -1,4 +1,4 @@
-%bcond_with bootstrap
+%bcond_without bootstrap
 
 Name:             jansi
 Version:          2.4.0
@@ -104,6 +104,9 @@ cp -p src/main/native/libjansi.so %{buildroot}%{_prefix}/lib/%{name}
 %license license.txt
 
 %changelog
+* Web Feb 22 2023 Liu Yang <Yang.Liu.sn@gmail.com> - 2.4.0-6~bootstrap
+- Bootstrap for riscv64.
+
 * Thu Jul 21 2022 Fedora Release Engineering <releng@fedoraproject.org> - 2.4.0-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_37_Mass_Rebuild
 
